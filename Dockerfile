@@ -70,12 +70,51 @@ RUN apt-get update && apt-get install -y \
     zsh \
  && rm -rf /var/lib/apt/lists/*
 
+# ---------------------------------
+# RISC-V tools (spike / pk) install
+# ---------------------------------
+RUN echo $RISCV
+ENV PATH $PATH:$RISCV/bin
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$RISCV/lib
+
+RUN git clone https://github.com/riscv-software-src/riscv-isa-sim.git --recurse-submodules --depth 1 && \
+    cd riscv-isa-sim && \
+    ./configure --prefix=$RISCV --without-boost --without-boost-asio --without-boost-regex && \
+    make -j$(nproc) && \
+    make install
+
+RUN git clone https://github.com/riscv-collab/riscv-gnu-toolchain.git -b rvv-next --depth 1 && \
+    cd riscv-gnu-toolchain && \
+    mkdir build && cd build && \
+    ../configure --prefix=$RISCV && \
+    make -j$(nproc) && \
+    make install && \
+    cd ../ && rm -rf build
+
+RUN git clone https://github.com/riscv-software-src/riscv-pk.git --recurse-submodules --depth 1 && \
+    cd riscv-pk && \
+    mkdir -p build && \
+    cd build && \
+    ../configure --prefix=$RISCV --host riscv64-unknown-elf && \
+    make -j$(nproc) && \
+    make install && \
+    cd ../ && rm -rf build
+
+RUN git clone https://github.com/riscv-software-src/riscv-tests.git --recurse-submodules --depth 1 && \
+    cd riscv-tests && \
+    mkdir -p build && \
+    cd build && \
+    ../configure --prefix=$RISCV && \
+    make -j$(nproc) && \
+    make install && \
+    cd ../ && rm -rf build
+
 RUN apt-get update && apt-get install -y cmake
 WORKDIR /tmp/
 RUN git clone https://github.com/llvm/llvm-project.git -b release/15.x --depth 1 && \
 	cd llvm-project && \
-	mkdir build && cd build && \
-	cmake -G Makefile \
+	mkdir -p build && cd build && \
+	cmake -G "Unix Makefiles" \
 	      -DDEFAULT_SYSROOT=${RISCV}/riscv64-unknown-elf \
 	      -DCMAKE_BUILD_TYPE="Release" \
           -DCMAKE_INSTALL_PREFIX=${RISCV} \
@@ -83,47 +122,6 @@ RUN git clone https://github.com/llvm/llvm-project.git -b release/15.x --depth 1
 	      -DLLVM_ENABLE_PROJECTS="clang" ../llvm && \
     make -j$(nproc) && \
     make install && \
-    cd ../ & rm -rf  build
-
-# # ---------------------------------
-# # RISC-V tools (spike / pk) install
-# # ---------------------------------
-# RUN apt install libboost-dev libboost-tools-dev
-#
-# RUN echo $RISCV
-# ENV PATH $PATH:$RISCV/bin
-# ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$RISCV/lib
-#
-# RUN git clone https://github.com/riscv-software-src/riscv-isa-sim.git --recurse-submodules --depth 1 && \
-#     cd riscv-isa-sim && \
-#     ./configure --prefix=$RISCV --without-boost --without-boost-asio --without-boost-regex && \
-#     make -j$(nproc) && \
-#     make install
-#
-# RUN git clone https://github.com/riscv-collab/riscv-gnu-toolchain.git -b rvv-next --depth 1 && \
-#     cd riscv-gnu-toolchain && \
-#     mkdir build && cd build && \
-#     ../configure --prefix=$RISCV && \
-#     make -j$(nproc) && \
-#     make install && \
-#     cd ../ && rm -rf build
-#
-# RUN git clone https://github.com/riscv-software-src/riscv-pk.git --recurse-submodules --depth 1 && \
-#     cd riscv-pk && \
-#     mkdir -p build && \
-#     cd build && \
-#     ../configure --prefix=$RISCV --host riscv64-unknown-elf && \
-#     make -j$(nproc) && \
-#     make install && \
-#     cd ../ && rm -rf build
-#
-# RUN git clone https://github.com/riscv-software-src/riscv-tests.git --recurse-submodules --depth 1 && \
-#     cd riscv-tests && \
-#     mkdir -p build && \
-#     cd build && \
-#     ../configure --prefix=$RISCV && \
-#     make -j$(nproc) && \
-#     make install && \
-#     cd ../ && rm -rf build
+    cd ../ && rm -rf  build
 
 RUN echo $RISCV
