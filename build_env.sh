@@ -12,7 +12,7 @@ make -j$(nproc) SNIPER_ROOT=$SNIPER_ROOT 2>&1 | tee rv8_build.log
 
 cd ../sniper
 make clean
-make BUILD_RISCV=1 DEBUG=1 -j$(nproc) RV8_HOME=$RV8_HOME 2>&1 | tee sniper_build.log
+make BUILD_RISCV=1 -j$(nproc) RV8_HOME=$RV8_HOME 2>&1 | tee sniper_build.log
 
 cd ../riscv-isa-sim
 make clean

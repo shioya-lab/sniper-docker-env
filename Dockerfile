@@ -125,3 +125,8 @@ RUN git clone https://github.com/llvm/llvm-project.git -b release/15.x --depth 1
     cd ../ && rm -rf  build
 
 RUN echo $RISCV
+RUN apt-get update && apt-get install -y sqlite3
+RUN apt-get update && apt-get install -y gnuplot
+RUN apt-get update && apt-get install -y libdb-dev
+RUN apt-get update && apt-get install -y libboost1.71-dev
+RUN apt-get update && apt-get install -y build-essential cmake libboost-dev libboost-serialization-dev libboost-filesystem-dev libboost-iostreams-dev libboost-program-options-dev zlib1g-dev libquadmath0
