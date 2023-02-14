@@ -19,9 +19,11 @@ BUILD_ALL_TARGETS=$(foreach f,$(DOCKER_FILES),$(f).build)
 build-all: $(BUILD_ALL_TARGETS)
 
 run-root:
-	docker run --rm -it -v "${HOME}:${HOME}" $(DOCKER_IMAGE)
+	docker run --cap-add=SYS_PTRACE --security-opt="seccomp=unconfined" \
+		--rm -it -v "${HOME}:${HOME}" $(DOCKER_IMAGE)
 
 run:
-	docker run --rm -it -v "${HOME}:${HOME}" --user $(shell id -u):$(shell id -g) -w "${PWD}" $(DOCKER_IMAGE)
+	docker run --cap-add=SYS_PTRACE --security-opt="seccomp=unconfined" \
+		--rm -it -v "${HOME}:${HOME}" --user $(shell id -u):$(shell id -g) -w "${PWD}" $(DOCKER_IMAGE)
 
 .PHONY: all build-all run-root run
