@@ -22,5 +22,5 @@ fi
 
 
 if [ ! -d sniper2mcpat ]; then
-    git clone git@github.com:i4kimura/sniper2mcpat.git
+    git clone git@github.com:i4kimura/sniper2mcpat.git --recurse-submodules
 fi
