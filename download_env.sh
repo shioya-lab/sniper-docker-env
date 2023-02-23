@@ -13,7 +13,7 @@ if [ ! -d rv8 ]; then
 fi
 
 if [ ! -d riscv-isa-sim ]; then
-    git clone git@github.com:shioya-lab/riscv-isa-sim.git -b sift
+    git clone git@github.com:shioya-lab/sniper-riscv-isa-sim.git -b sift riscv-isa-sim
 fi
 
 if [ ! -d vector_benches ]; then
