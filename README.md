@@ -8,6 +8,7 @@ Sniperのビルドとシミュレーション実行用の環境群
 sniper-docker-env
   |- sniper         : Cycle-accurate simulator
   |- rv8            : RV8: RISC-V instruction decoder, used in Sniper
+  |- riscv-isa-sim  : RISC-V Functional simulator with SIFT generation
   |- sniper2mcpat   : Scripts to measure energy
   |- vector_benches : Vector benchmarks
      |- microbenchmarks : Small vector testcases, using RVV intrinsics
