@@ -35,6 +35,8 @@ $ make run # Go into docker container
 Following commands are expected to be executed in Docker container.
 
 ```sh
+# Following commands are expected to be executed in Docker container.
+
 $ ./download_env.sh
 $ cp /home/kimura/work/sniper/sniper/pin-3.18-98332-gaebd7b1e6-gcc-linux.tar.gz sniper/
 $ tar xvfz sniper/pin-3.18-98332-gaebd7b1e6-gcc-linux.tar.gz     # Extract pin files into head directory of sniper
@@ -46,6 +48,8 @@ $ ./build_env.sh   # Build rv8, sniper, riscv-isa-sim
 - Microbenchmarks
 
 ```sh
+# Following commands are expected to be executed in Docker container.
+
 $ cd vector_benches/microbenchmarks
 $ make -j$(nproc) VLEN={128,512}
 ```
@@ -53,6 +57,8 @@ $ make -j$(nproc) VLEN={128,512}
 - RiVec
 
 ```sh
+# Following commands are expected to be executed in Docker container.
+
 $ cd vector_benches/rivec1.0
 $ make -j $(nproc) VLEN={128,512}
 ```
