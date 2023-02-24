@@ -2,7 +2,6 @@
 
 export RV8_HOME=${PWD}/rv8
 export SNIPER_ROOT=${PWD}/sniper
-export RISCV=/riscv/
 
 echo $RV8_HOME
 
