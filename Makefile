@@ -1,5 +1,11 @@
+ifeq ($(LLVM),15)
+	LLVM_DOCKER_OPT =
+else
+	LLVM_DOCKER_OPT = -llvm16
+endif
+
 UBUNTU_VERSION?=20.04
-DOCKER_IMAGE ?= ubuntu:$(UBUNTU_VERSION)-work-sniper-$(USER)
+DOCKER_IMAGE ?= ubuntu:$(UBUNTU_VERSION)-work-sniper-$(USER)$(LLVM_DOCKER_OPT)
 DOCKER_FILE?=Dockerfile-ubuntu-$(UBUNTU_VERSION)
 DOCKER_FILES=$(wildcard Dockerfile*)
 # For use with --no-cache, etc.
