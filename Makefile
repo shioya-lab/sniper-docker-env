@@ -5,7 +5,7 @@ else
 endif
 
 UBUNTU_VERSION?=20.04
-DOCKER_IMAGE ?= ubuntu:$(UBUNTU_VERSION)-work-sniper-$(USER)$(LLVM_DOCKER_OPT)
+DOCKER_IMAGE ?= msyksphinz/ubuntu:$(UBUNTU_VERSION)-work-sniper-$(USER)$(LLVM_DOCKER_OPT)
 DOCKER_FILE?=Dockerfile-ubuntu-$(UBUNTU_VERSION)
 DOCKER_FILES=$(wildcard Dockerfile*)
 # For use with --no-cache, etc.
@@ -23,6 +23,9 @@ Dockerfile%.build: Dockerfile
 
 BUILD_ALL_TARGETS=$(foreach f,$(DOCKER_FILES),$(f).build)
 build-all: $(BUILD_ALL_TARGETS)
+
+docker-push:
+	docker push $(DOCKER_IMAGE)
 
 run-root:
 	docker run --cap-add=SYS_PTRACE --security-opt="seccomp=unconfined" \
