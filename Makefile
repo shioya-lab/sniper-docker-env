@@ -5,7 +5,7 @@ else
 endif
 
 UBUNTU_VERSION?=20.04
-DOCKER_IMAGE ?= ubuntu:$(UBUNTU_VERSION)-work-sniper-$(USER)$(LLVM_DOCKER_OPT)
+DOCKER_IMAGE ?= msyksphinz/ubuntu:$(UBUNTU_VERSION)-work-sniper-$(USER)$(LLVM_DOCKER_OPT)
 DOCKER_FILE?=Dockerfile-ubuntu-$(UBUNTU_VERSION)
 DOCKER_FILES=$(wildcard Dockerfile*)
 # For use with --no-cache, etc.

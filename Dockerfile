@@ -178,3 +178,4 @@ RUN apt-get update && apt-get install -y gnuplot
 RUN apt-get update && apt-get install -y libdb-dev
 RUN apt-get update && apt-get install -y libboost1.71-dev
 RUN apt-get update && apt-get install -y build-essential cmake libboost-dev libboost-serialization-dev libboost-filesystem-dev libboost-iostreams-dev libboost-program-options-dev zlib1g-dev libquadmath0
+RUN apt-get update && apt-get install -y valgrind
