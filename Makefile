@@ -24,6 +24,9 @@ Dockerfile%.build: Dockerfile
 BUILD_ALL_TARGETS=$(foreach f,$(DOCKER_FILES),$(f).build)
 build-all: $(BUILD_ALL_TARGETS)
 
+docker-push:
+	docker push $(DOCKER_IMAGE)
+
 run-root:
 	docker run --cap-add=SYS_PTRACE --security-opt="seccomp=unconfined" \
 		--rm -it -v "${HOME}:${HOME}" $(DOCKER_IMAGE)

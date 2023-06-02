@@ -106,7 +106,8 @@ RUN curl -L ftp://ftp.gnu.org/gnu/binutils/binutils-2.40.tar.gz | tar xz && \
             --enable-languages=c,c++ \
             --disable-multilib && \
     make -j$(nproc) && \
-    make install
+    make install && \
+    rm -rf build
 
 # GCC-13
 RUN curl -L http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-13.1.0/gcc-13.1.0.tar.gz | tar xz && \
@@ -119,7 +120,8 @@ RUN curl -L http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-13.1.0/gcc-1
 	        --with-newlib \
 	        --disable-threads && \
     make -j$(nproc) all-gcc && \
-	make install-gcc
+    make install-gcc && \
+    rm -rf gcc-13.1.0/build_rvv
 
 # Newlib
 RUN curl -L ftp://sourceware.org/pub/newlib/newlib-4.3.0.20230120.tar.gz | tar xz && \
@@ -127,16 +129,16 @@ RUN curl -L ftp://sourceware.org/pub/newlib/newlib-4.3.0.20230120.tar.gz | tar x
     mkdir build && cd build && \
     ../configure --prefix=${RISCV} --target=riscv64-unknown-elf && \
     make -j$(nproc) && \
-    make install
+    make install && \
+    rm -rf build
 
 # GCC (2nd)
 RUN mkdir gcc-13.1.0/build_rvv_2nd && \
     cd gcc-13.1.0/build_rvv_2nd && \
     ../configure --prefix=${RISCV} --target=riscv64-unknown-elf --enable-languages=c,c++ --with-newlib && \
     make -j$(nproc) && \
-    make install
-
-
+    make install && \
+    rm -rf gcc-13.1.0/build_rvv_2nd
 
 
 RUN git clone https://github.com/riscv-software-src/riscv-pk.git --recurse-submodules --depth 1 && \
@@ -179,3 +181,4 @@ RUN apt-get update && apt-get install -y libdb-dev
 RUN apt-get update && apt-get install -y libboost1.71-dev
 RUN apt-get update && apt-get install -y build-essential cmake libboost-dev libboost-serialization-dev libboost-filesystem-dev libboost-iostreams-dev libboost-program-options-dev zlib1g-dev libquadmath0
 RUN apt-get update && apt-get install -y valgrind
+RUN apt-get update && apt-get install -y ocaml ocamlbuild autoconf automake indent libtool fig2dev libnum-ocaml-dev
