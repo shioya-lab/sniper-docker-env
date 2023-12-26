@@ -7,7 +7,9 @@ echo $RV8_HOME
 
 cd sniper
 make clean
-make BUILD_RISCV=1 -j$(nproc) RV8_HOME=$RV8_HOME 2>&1 | tee sniper_build.log
+tools_dir=`readlink -f ./pin_kit/source/tools`
+echo ${tools_dir}
+make TOOLS_ROOT=${tools_dir} BUILD_RISCV=1 -j$(nproc) RV8_HOME=$RV8_HOME 2>&1 | tee sniper_build.log
 
 cd ../rv8
 make clean
